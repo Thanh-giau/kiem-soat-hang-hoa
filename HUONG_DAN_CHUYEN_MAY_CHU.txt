@@ -1,0 +1,63 @@
+================================================================================
+          HƯỚNG DẪN CÀI ĐẶT LÀM MÁY CHỦ TRÊN MÁY TÍNH KHÁC (KHÔNG CẦN VS CODE)
+================================================================================
+
+Chào bạn! Hệ thống Web Quản Lý Kho này hoạt động độc lập bằng PHP & MySQL,
+HOÀN TOÀN KHÔNG CẦN VS Code hay bất kỳ phần mềm lập trình nào.
+
+Dưới đây là 3 bước siêu đơn giản để biến 1 máy tính bất kỳ thành MÁY CHỦ:
+
+--------------------------------------------------------------------------------
+BƯỚC 1: SAO LƯU DỮ LIỆU TỪ MÁY CŨ (NẾU CÓ DỮ LIỆU ĐANG DÙNG)
+--------------------------------------------------------------------------------
+1. Trên máy hiện tại, nhấp đúp chuột vào file:
+   SAO_LUU_DU_LIEU.bat
+2. File sao lưu sẽ được tạo tự động tại: database\quan_ly_kho_backup.sql
+3. Copy toàn bộ thư mục [kiem-soat-hang-hoa] này vào USB hoặc ổ cứng di động.
+
+--------------------------------------------------------------------------------
+BƯỚC 2: THIẾT LẬP TRÊN MÁY TÍNH MỚI (LÀM MÁY CHỦ)
+--------------------------------------------------------------------------------
+1. Tải và cài đặt phần mềm XAMPP miễn phí cho Windows (khoảng 1 phút):
+   Link tải: https://www.apachefriends.org/download.html
+   (Lưu ý cài đặt vào ổ đĩa C:\xampp như mặc định).
+
+2. Copy thư mục [kiem-soat-hang-hoa] vào máy mới (ví dụ đặt tại C:\kiem-soat-hang-hoa).
+
+3. Nạp dữ liệu vào máy mới:
+   Nhấp đúp chuột vào file:
+   KHOI_PHUC_DU_LIEU.bat
+   -> Hệ thống sẽ tự động tạo cơ sở dữ liệu quan_ly_kho và nạp toàn bộ sản phẩm,
+      công thức BOM, số tồn, số bán vào máy mới.
+
+--------------------------------------------------------------------------------
+BƯỚC 3: BẬT MÁY CHỦ & SỬ DỤNG HÀNG NGÀY
+--------------------------------------------------------------------------------
+Từ nay về sau, mỗi ngày bạn chỉ cần làm 1 thao tác duy nhất:
+
+A. NẾU CHỈ DÙNG NỘI BỘ TRONG QUÁN / CÔNG TY (CÙNG WI-FI):
+   - Nhấp đúp chuột vào: CHAY_MAY_CHU_LAN.bat
+   - Màn hình sẽ hiện ra địa chỉ IP (Ví dụ: http://192.168.1.15:8000).
+   - Bất kỳ điện thoại, máy tính bảng hay laptop nào bắt Wi-Fi đó chỉ cần mở
+     trình duyệt gõ địa chỉ trên là sử dụng được ngay.
+
+B. NẾU MUỐN DÙNG TỪ XA QUA 4G HOẶC Ở BẤT KỲ ĐÂU:
+   - Nhấp đúp chuột vào: CHAY_MAY_CHU_ONLINE.bat
+   - Màn hình sẽ hiện ra đường link online (https://....trycloudflare.com).
+   - Gửi link này cho nhân viên hoặc mở trên điện thoại bất cứ lúc nào.
+
+C. KHI MUỐN TẮT MÁY CHỦ:
+   - Nhấp đúp chuột vào: DUNG_MAY_CHU.bat
+
+--------------------------------------------------------------------------------
+MẸO CỰC HAY: TỰ ĐỘNG BẬT MÁY CHỦ KHI MỞ MÁY TÍNH (KHÔNG CẦN BẤM GÌ)
+--------------------------------------------------------------------------------
+Nếu bạn muốn chiếc máy tính đó cứ cắm điện bật nguồn lên là tự động biến thành
+máy chủ cho toàn bộ quán dùng:
+1. Nhấn tổ hợp phím [Windows + R] trên bàn phím.
+2. Gõ: shell:startup rồi nhấn Enter (Thư mục Khởi động của Windows sẽ mở ra).
+3. Bấm chuột phải vào file CHAY_MAY_CHU_LAN.bat (hoặc CHAY_MAY_CHU_ONLINE.bat),
+   chọn [Show more options] -> [Create shortcut] (Tạo lối tắt).
+4. Kéo shortcut đó thả vào thư mục Khởi động vừa mở ở bước 2.
+-> Từ nay, mỗi khi bật máy tính lên, máy chủ sẽ tự động chạy ngầm sẵn sàng!
+================================================================================

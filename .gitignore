@@ -1,0 +1,15 @@
+# Binary executables
+bin/cloudflared.exe
+*.exe
+
+# Temp files
+uploads/temp/*
+!uploads/temp/.gitkeep
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+.vscode/
+.idea/

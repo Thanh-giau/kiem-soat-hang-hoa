@@ -1,0 +1,79 @@
+/* Upload & So Ban Styles */
+
+.upload-dropzone {
+    border: 2px dashed #cbd5e1;
+    border-radius: var(--border-radius-lg);
+    padding: 40px 20px;
+    text-align: center;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 24px;
+}
+
+.upload-dropzone:hover, .upload-dropzone.dragover {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+}
+
+.upload-icon {
+    font-size: 48px;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.upload-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.upload-subtext {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.filter-summary-card {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.filter-box {
+    padding: 16px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.filter-box.checked {
+    background-color: var(--success-light);
+    border-color: #a7f3d0;
+    color: #065f46;
+}
+
+.filter-box.skipped {
+    background-color: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #475569;
+}
+
+.filter-box.alert {
+    background-color: var(--danger-light);
+    border-color: #fecaca;
+    color: #991b1b;
+}
+
+.filter-count {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.filter-title {
+    font-size: 13px;
+    font-weight: 600;
+}

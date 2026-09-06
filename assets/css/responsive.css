@@ -1,0 +1,380 @@
+/**
+ * Master Responsive Design System
+ * Scales seamlessly from Wide Displays (1440px+) to Laptops (1025px - 1366px),
+ * Tablets (769px - 1024px), and Mobile Phones (320px - 768px).
+ */
+
+/* ==========================================================================
+   1. LAPTOP & COMPACT DESKTOP (1025px - 1280px)
+   ========================================================================== */
+@media (max-width: 1280px) {
+    .content-body {
+        padding: 22px 20px;
+    }
+
+    .dashboard-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+    }
+}
+
+/* ==========================================================================
+   2. TABLET TIERS (769px - 1024px, iPad Portrait & Landscape, Surface Pro)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    /* Transform Sidebar into Off-Canvas Sliding Drawer */
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 1000;
+        box-shadow: 10px 0 35px rgba(0, 0, 0, 0.35);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-close-btn {
+        display: flex;
+    }
+
+    /* Main wrapper takes full screen width */
+    .main-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+    }
+
+    /* Topbar hamburger button */
+    .menu-toggle-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        background: #f1f5f9;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .menu-toggle-btn:hover {
+        background: #e2e8f0;
+    }
+
+    .topbar {
+        padding: 0 20px;
+        height: 60px;
+    }
+
+    .page-title {
+        font-size: 17px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 45vw;
+    }
+
+    .content-body {
+        padding: 20px 16px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Modals */
+    .modal-card {
+        max-width: 90vw;
+        margin: 16px;
+    }
+}
+
+/* ==========================================================================
+   3. MOBILE PHONES (Up to 768px - iPhone, Samsung, Pixel)
+   ========================================================================== */
+@media (max-width: 768px) {
+    body.sidebar-opened {
+        overflow: hidden;
+    }
+
+    .topbar {
+        padding: 0 12px;
+        height: 56px;
+    }
+
+    .topbar-left {
+        gap: 10px;
+    }
+
+    .page-title {
+        font-size: 15px;
+        max-width: 160px;
+    }
+
+    .topbar-right {
+        gap: 8px;
+    }
+
+    .topbar-date-badge {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    .topbar-logout-btn .logout-text,
+    .topbar-mobile-btn .mobile-text {
+        display: none;
+    }
+
+    .topbar-logout-btn,
+    .topbar-mobile-btn {
+        padding: 6px 10px;
+    }
+
+    .content-body {
+        padding: 14px 10px;
+    }
+
+    /* Cards */
+    .card {
+        margin-bottom: 16px;
+        border-radius: var(--border-radius);
+    }
+
+    .card-header {
+        padding: 14px 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .card-header .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .card-body {
+        padding: 14px;
+    }
+
+    /* 2-column KPI Grid on Mobile */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .stat-card {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        border-radius: 10px;
+    }
+
+    .stat-value {
+        font-size: 18px;
+        margin-bottom: 2px;
+    }
+
+    .stat-label {
+        font-size: 11.5px;
+        line-height: 1.2;
+    }
+
+    /* Quick Action Buttons on Mobile */
+    .quick-actions-bar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .quick-actions-bar .btn {
+        justify-content: center;
+        padding: 10px 12px;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    /* Auto-wrap flex header containers across pages */
+    .content-body > div[style*="display: flex"],
+    .content-body form > div[style*="display: flex"] {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+
+    .content-body > div[style*="display: flex"] > div,
+    .content-body form > div[style*="display: flex"] > div {
+        width: 100% !important;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: space-between;
+    }
+
+    .content-body > div[style*="display: flex"] input,
+    .content-body > div[style*="display: flex"] select,
+    .content-body > div[style*="display: flex"] .btn {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Tables Responsive on Mobile */
+    .table-responsive {
+        border-radius: var(--border-radius-sm);
+        border: 1px solid var(--border-color);
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+    }
+
+    .table th, .table td {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .table td strong {
+        font-size: 13px;
+    }
+
+    /* Form Controls */
+    .form-control {
+        font-size: 16px; /* Prevents auto-zoom on iPhone/iOS Safari */
+        min-height: 42px;
+    }
+
+    .btn {
+        min-height: 40px;
+        touch-action: manipulation;
+    }
+
+    /* Modals on Mobile */
+    .modal-overlay {
+        padding: 10px;
+        align-items: center;
+    }
+
+    .modal-card {
+        max-width: 100%;
+        width: 100%;
+        border-radius: var(--border-radius);
+        max-height: 90vh;
+        margin: 0;
+    }
+
+    .modal-body {
+        padding: 16px;
+        max-height: 65vh;
+    }
+
+    .modal-footer {
+        padding: 12px 16px;
+        flex-direction: column-reverse;
+        gap: 8px;
+    }
+
+    .modal-footer .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Giao diện nhập kiểm kho thực tế trên Mobile */
+    .mobile-count-card {
+        background: #fff;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: 16px;
+        margin-bottom: 14px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .count-input-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+    }
+
+    .btn-step {
+        width: 46px;
+        height: 46px;
+        font-size: 20px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--border-radius-sm);
+        background: #f1f5f9;
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+
+    .btn-step:active {
+        background: #e2e8f0;
+        transform: scale(0.95);
+    }
+
+    .input-count-mobile {
+        flex: 1;
+        height: 46px;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        border: 2px solid var(--primary);
+        border-radius: var(--border-radius-sm);
+    }
+
+    .sticky-submit-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        padding: 12px 16px;
+        box-shadow: 0 -4px 15px rgba(0,0,0,0.12);
+        z-index: 95;
+        display: flex;
+        gap: 10px;
+    }
+
+    .sticky-submit-bar .btn {
+        flex: 1;
+        padding: 12px;
+        font-size: 15px;
+    }
+}
+
+/* ==========================================================================
+   4. ULTRA-SMALL PHONES (<= 400px, e.g. iPhone SE, Galaxy A-series)
+   ========================================================================== */
+@media (max-width: 400px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .page-title {
+        font-size: 14px;
+        max-width: 130px;
+    }
+}
