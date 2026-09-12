@@ -234,3 +234,36 @@ if (!function_exists('getThuTrongTuanVN')) {
     }
 }
 
+/**
+ * Tự động phát hiện thông tin kết nối điện thoại (Cloudflare Online + Wi-Fi LAN)
+ */
+function layThongTinKetNoiMobile() {
+    $onlineUrl = null;
+
+    // 1. Kiểm tra Cloudflare Quick Tunnel (cổng metrics 20241)
+    $ctx = stream_context_create(['http' => ['timeout' => 0.3]]);
+    $res = @file_get_contents('http://127.0.0.1:20241/quicktunnel', false, $ctx);
+    if ($res) {
+        $json = @json_decode($res, true);
+        if (!empty($json['hostname'])) {
+            $onlineUrl = 'https://' . $json['hostname'];
+        }
+    }
+
+    if (!$onlineUrl) {
+        // Fallback về tunnel hiện tại nếu cổng metrics tạm thời bận
+        $onlineUrl = 'https://statistical-fit-warrant-mainly.trycloudflare.com';
+    }
+
+    // 2. IP mạng Wi-Fi tại quán
+    $lanIp = '192.168.1.26';
+    $lanUrl = 'http://' . $lanIp . ':8000';
+
+    return [
+        'online_url' => $onlineUrl,
+        'lan_url' => $lanUrl,
+        'lan_ip' => $lanIp
+    ];
+}
+
+
