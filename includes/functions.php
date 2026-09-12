@@ -257,6 +257,12 @@ function layThongTinKetNoiMobile() {
 
     // 2. IP mạng Wi-Fi tại quán
     $lanIp = '192.168.1.26';
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $ipOut = @shell_exec('ipconfig');
+        if ($ipOut && preg_match('/Wi-Fi.*?:.*?IPv4[^:]*:[ \t]*([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/s', $ipOut, $m)) {
+            $lanIp = trim($m[1]);
+        }
+    }
     $lanUrl = 'http://' . $lanIp . ':8000';
 
     return [
