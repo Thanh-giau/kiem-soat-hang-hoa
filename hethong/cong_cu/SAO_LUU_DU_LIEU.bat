@@ -7,8 +7,12 @@ echo                SAO LUU TOAN BO CO SO DU LIEU KHO
 echo =====================================================================
 echo.
 
+pushd "%~dp0..\.."
+set "ROOT_DIR=%CD%"
+popd
+
 set "MYSQLDUMP_BIN=C:\xampp\mysql\bin\mysqldump.exe"
-set "BACKUP_FILE=%~dp0database\quan_ly_kho_backup.sql"
+set "BACKUP_FILE=%ROOT_DIR%\database\quan_ly_kho_backup.sql"
 
 if not exist "%MYSQLDUMP_BIN%" (
     echo [!] Khong tim thay cong cu mysqldump tai C:\xampp\mysql\bin\mysqldump.exe

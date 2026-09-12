@@ -31,6 +31,7 @@ if %errorlevel% neq 0 (
 echo [*] Buoc 2/3: Dang ket noi GitHub va tai cac chuc nang moi nhat ve...
 echo.
 
+cd /d "%SCRIPT_DIR%\..\.."
 git fetch origin main
 git merge origin/main
 

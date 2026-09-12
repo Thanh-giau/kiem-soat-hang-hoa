@@ -7,9 +7,13 @@ echo                KHOI PHUC CO SO DU LIEU SANG MAY NAY
 echo =====================================================================
 echo.
 
+pushd "%~dp0..\.."
+set "ROOT_DIR=%CD%"
+popd
+
 set "MYSQL_BIN=C:\xampp\mysql\bin\mysql.exe"
-set "BACKUP_FILE=%~dp0database\quan_ly_kho_backup.sql"
-set "INIT_FILE=%~dp0database\quan_ly_kho.sql"
+set "BACKUP_FILE=%ROOT_DIR%\database\quan_ly_kho_backup.sql"
+set "INIT_FILE=%ROOT_DIR%\database\quan_ly_kho.sql"
 
 if not exist "%MYSQL_BIN%" (
     echo [!] Chua tim thay MySQL tai C:\xampp\mysql\bin\mysql.exe

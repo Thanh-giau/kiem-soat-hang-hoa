@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['do_update'])) {
     $repoDir = realpath(__DIR__ . '/..');
     
     // Tự động sao lưu database trước khi cập nhật
-    @shell_exec('cmd /c "cd /d ' . escapeshellarg($repoDir) . ' && SAO_LUU_DU_LIEU.bat"');
+    @shell_exec('cmd /c "cd /d ' . escapeshellarg($repoDir) . ' && hethong\\cong_cu\\SAO_LUU_DU_LIEU.bat"');
 
     // Chạy git pull
     $cmd = 'cd /d ' . escapeshellarg($repoDir) . ' && git fetch origin main 2>&1 && git merge origin/main 2>&1';

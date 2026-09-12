@@ -1,19 +1,21 @@
 @echo off
-title KHO HANG CUA THANH GIAU - MAY CHU NOI BO (LAN)
-color 0a
+title KHO HANG CUA THANH GIAU - MAY CHU ONLINE
+color 0b
 
 echo =====================================================================
 echo       HE THONG QUAN LY KHO VA KIEM SOAT HANG HOA TU DONG
-echo                   (CHE DO MAY CHU NOI BO - LAN)
+echo              (CHE DO MAY CHU TRUC TUYEN - TOAN CAU)
 echo =====================================================================
 echo.
 
-set "CURRENT_DIR=%~dp0"
-set "CURRENT_DIR=%CURRENT_DIR:~0,-1%"
+pushd "%~dp0..\.."
+set "CURRENT_DIR=%CD%"
+popd
 
 set "PHP_BIN=C:\xampp\php\php.exe"
 set "MYSQL_BIN=C:\xampp\mysql\bin\mysqld.exe"
 set "MY_INI=C:\xampp\mysql\bin\my.ini"
+set "CF_BIN=%CURRENT_DIR%\bin\cloudflared.exe"
 
 if not exist "%PHP_BIN%" (
     echo [!] CANH BAO: Chua tim thay PHP tai C:\xampp\php\php.exe
@@ -50,17 +52,13 @@ for /f "tokens=4" %%a in ('route print ^| find " 0.0.0.0"') do (
 
 echo.
 echo =====================================================================
-echo   MAY CHU DA KHOI DONG THANH CONG!
+echo   DANG TAO DUONG LINK ONLINE BAO MAT (CLOUDFLARE)...
+echo =====================================================================
+echo   * Link may tinh nay:    http://localhost:8000
+echo   * Link mang Wi-Fi quan: http://%SERVER_IP%:8000
+echo.
+echo   Dang ket noi duong link Online cho dien thoai ngoai quan...
 echo =====================================================================
 echo.
-echo   * Tren may chu nay, mo trinh duyet go:
-echo       http://localhost:8000
-echo.
-echo   * Tren Dien thoai / May tinh bang / Laptop cung mang Wi-Fi go:
-echo       http://%SERVER_IP%:8000
-echo.
-echo =====================================================================
-echo   (Cua so nay co the thu nho xuong Taskbar, khong tat de duy tri)
-echo =====================================================================
-echo.
-pause
+
+"%CF_BIN%" tunnel --url http://127.0.0.1:8000
