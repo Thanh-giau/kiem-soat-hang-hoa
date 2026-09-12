@@ -17,6 +17,8 @@ require_once __DIR__ . '/../config/database.php';
 // Helper: Chuẩn hóa tên món POS, loại bỏ hậu tố size (Vừa, Lớn, Nhỏ...) và tiền tố nền tảng giao hàng
 function cleanDishSizeAndPlatform($str) {
     if (!$str) return '';
+    // Bỏ dấu cộng phía trước nếu có: + PLT
+    $str = preg_replace('/^\+\s*/u', '', $str);
     // Bỏ tiền tố PLT / Grab / Shopee / Baemin
     $str = preg_replace('/^(PLT|GRAB|SHOPEE|BAEMIN)\s+/ui', '', $str);
     // Bỏ các hậu tố size trong ngoặc: (Vừa), (Lớn), (Nhỏ), (Nóng), (Lạnh), (M), (L), (S)...
@@ -147,9 +149,18 @@ function filterInventoryProducts($extractedItems) {
     $stmt = $db->query("SELECT id, ma_sp, ten_sp, nhom_sp, can_kiem_ke, trang_thai FROM san_pham");
     $allDbProducts = [];
     $allDbProductsById = [];
+    $inventoryCleanNameMap = [];
+    $inventoryNoToneMap = [];
+
     while ($row = $stmt->fetch()) {
         $allDbProducts[strtoupper($row['ma_sp'])] = $row;
         $allDbProductsById[$row['id']] = $row;
+        // Lập chỉ mục các sản phẩm kiểm kê gốc trong kho (can_kiem_ke = 1)
+        if ((int)$row['can_kiem_ke'] === 1 && (int)$row['trang_thai'] === 1) {
+            $cName = mb_strtolower(cleanDishSizeAndPlatform($row['ten_sp']), 'UTF-8');
+            $inventoryCleanNameMap[$cName] = $row;
+            $inventoryNoToneMap[removeVietnameseTonesHelper($cName)] = $row;
+        }
     }
 
     // 2. Lấy toàn bộ định lượng công thức món (BOM / Recipe)
@@ -221,7 +232,56 @@ function filterInventoryProducts($extractedItems) {
             continue;
         }
 
-        // NẾU KHÔNG CÀI ĐỊNH LƯỢNG -> XỬ LÝ THEO MẶT HÀNG BÌNH THƯỜNG
+        // ⭐ 1.5. TỰ ĐỘNG GỘP MÓN NỀN TẢNG (PLT / GRAB / SHOPEE...) VÀO MÓN BÁNH GỐC TRONG KHO
+        $isPlatformItem = preg_match('/^(PLT|GRAB|SHOPEE|BAEMIN)\s+/ui', $tenSP) 
+            || strcasecmp($nhomSP, 'Platform') === 0 
+            || strpos($maSP, 'PLT') !== false;
+
+        $cleanName = cleanDishSizeAndPlatform($tenSP);
+        $normCleanName = mb_strtolower($cleanName, 'UTF-8');
+        $normCleanNoTone = removeVietnameseTonesHelper($normCleanName);
+
+        $parentProduct = null;
+        if (isset($inventoryCleanNameMap[$normCleanName])) {
+            $parentProduct = $inventoryCleanNameMap[$normCleanName];
+        } elseif (isset($inventoryNoToneMap[$normCleanNoTone])) {
+            $parentProduct = $inventoryNoToneMap[$normCleanNoTone];
+        }
+
+        // Nếu tìm thấy món kiểm kê gốc trong kho tương ứng:
+        // (Ví dụ: 'PLT Bánh Mì Que Pate Cột Đèn' -> khớp với món gốc 'Bánh Mì Que Pate Cột Đèn')
+        if ($parentProduct && (empty($allDbProducts[$maSP]) || (int)$allDbProducts[$maSP]['id'] !== (int)$parentProduct['id'] || $isPlatformItem)) {
+            $parentSpId = (int)$parentProduct['id'];
+
+            if (isset($danhSachKiemKeMap[$parentSpId])) {
+                $danhSachKiemKeMap[$parentSpId]['so_luong'] += $soLuong;
+                $danhSachKiemKeMap[$parentSpId]['ghi_chu_dinh_luong'][] = "Bao gồm {$soLuong} từ món app [{$tenSP}]";
+            } else {
+                $danhSachKiemKeMap[$parentSpId] = [
+                    'san_pham_id' => $parentSpId,
+                    'ma_sp' => $parentProduct['ma_sp'],
+                    'ten_sp' => $parentProduct['ten_sp'],
+                    'nhom_sp' => $parentProduct['nhom_sp'],
+                    'so_luong' => $soLuong,
+                    'can_kiem_ke' => 1,
+                    'ghi_chu_dinh_luong' => ["Từ {$soLuong} món app [{$tenSP}]"]
+                ];
+            }
+
+            // Đưa món PLT vào danh sách đã gộp vào kho (không tạo dòng kiểm kê riêng)
+            $danhSachBoQua[] = [
+                'san_pham_id' => 0,
+                'ma_sp' => $maSP,
+                'ten_sp' => $tenSP . ' (Đã tự động gộp vào kho: ' . $parentProduct['ten_sp'] . ')',
+                'nhom_sp' => $nhomSP . ' [Đã gộp vào kho]',
+                'so_luong' => $soLuong,
+                'can_kiem_ke' => 0,
+                'is_recipe_dish' => true
+            ];
+            continue;
+        }
+
+        // NẾU KHÔNG CÀI ĐỊNH LƯỢNG VÀ KHÔNG PHẢI MÓN GỘP -> XỬ LÝ THEO MẶT HÀNG BÌNH THƯỜNG
         if (isset($allDbProducts[$maSP])) {
             $dbProduct = $allDbProducts[$maSP];
             $spId = $dbProduct['id'];

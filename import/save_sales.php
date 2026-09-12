@@ -53,12 +53,16 @@ function saveSalesData($ngayBan, $danhSachKiemKe, $fileInfo, $nguoiUploadId, $gh
 
         $soLuongLuu = 0;
         foreach ($danhSachKiemKe as $item) {
+            $note = 'Tự động từ file: ' . $fileInfo['ten_file_goc'];
+            if (!empty($item['ghi_chu_dinh_luong'])) {
+                $note .= ' | ' . implode('; ', $item['ghi_chu_dinh_luong']);
+            }
             $stmtInsert->execute([
                 'upload_file_id' => $uploadFileId,
                 'san_pham_id' => $item['san_pham_id'],
                 'ngay_ban' => $ngayBan,
                 'so_luong' => $item['so_luong'],
-                'ghi_chu' => 'Tự động từ file: ' . $fileInfo['ten_file_goc']
+                'ghi_chu' => $note
             ]);
             $soLuongLuu++;
         }

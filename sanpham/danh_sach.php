@@ -57,6 +57,16 @@ $nhomList = $db->query("SELECT DISTINCT nhom_sp FROM san_pham WHERE nhom_sp != '
 // Đếm số sản phẩm đã xóa mềm
 $countDeleted = $db->query("SELECT COUNT(*) FROM san_pham WHERE trang_thai = 0")->fetchColumn();
 
+// Lập bản đồ các sản phẩm kiểm kê gốc trong kho để hiển thị liên kết món PLT
+require_once __DIR__ . '/../import/filter_inventory_products.php';
+$stmtInv = $db->query("SELECT id, ma_sp, ten_sp FROM san_pham WHERE can_kiem_ke = 1 AND trang_thai = 1");
+$invCleanMap = [];
+while ($inv = $stmtInv->fetch()) {
+    $cn = mb_strtolower(cleanDishSizeAndPlatform($inv['ten_sp']), 'UTF-8');
+    $invCleanMap[$cn] = $inv;
+    $invCleanMap[removeVietnameseTonesHelper($cn)] = $inv;
+}
+
 include __DIR__ . '/../includes/header.php';
 ?>
 
@@ -153,12 +163,30 @@ include __DIR__ . '/../includes/header.php';
                             </td>
                         </tr>
                     <?php else: ?>
-                        <?php foreach ($sanPhamList as $sp): ?>
+                        <?php foreach ($sanPhamList as $sp): 
+                            $isPlt = preg_match('/^(PLT|GRAB|SHOPEE|BAEMIN)\s+/ui', $sp['ten_sp']) || strcasecmp($sp['nhom_sp'], 'Platform') === 0;
+                            $cleanName = cleanDishSizeAndPlatform($sp['ten_sp']);
+                            $normName = mb_strtolower($cleanName, 'UTF-8');
+                            $normNoTone = removeVietnameseTonesHelper($normName);
+
+                            $linkedParent = null;
+                            if ($isPlt && (int)$sp['can_kiem_ke'] === 0) {
+                                if (isset($invCleanMap[$normName]) && (int)$invCleanMap[$normName]['id'] !== (int)$sp['id']) {
+                                    $linkedParent = $invCleanMap[$normName];
+                                } elseif (isset($invCleanMap[$normNoTone]) && (int)$invCleanMap[$normNoTone]['id'] !== (int)$sp['id']) {
+                                    $linkedParent = $invCleanMap[$normNoTone];
+                                }
+                            }
+                        ?>
                             <tr>
                                 <td><strong style="color: var(--primary);"><?= htmlspecialchars($sp['ma_sp']) ?></strong></td>
                                 <td>
                                     <div style="font-weight: 600;"><?= htmlspecialchars($sp['ten_sp']) ?></div>
-                                    <?php if (!empty($sp['ghi_chu'])): ?>
+                                    <?php if ($linkedParent): ?>
+                                        <div style="font-size: 11px; color: #4338ca; margin-top: 4px; font-weight: 600; background: #eef2ff; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 5px; border: 1px solid #c7d2fe;">
+                                            <i class="fa-solid fa-code-merge"></i> Tự động gộp số bán vào: <strong>[<?= htmlspecialchars($linkedParent['ma_sp']) ?>] <?= htmlspecialchars($linkedParent['ten_sp']) ?></strong>
+                                        </div>
+                                    <?php elseif (!empty($sp['ghi_chu'])): ?>
                                         <div style="font-size: 11px; color: var(--text-muted);"><?= htmlspecialchars($sp['ghi_chu']) ?></div>
                                     <?php endif; ?>
                                 </td>
@@ -168,6 +196,10 @@ include __DIR__ . '/../includes/header.php';
                                 <td style="text-align: center;">
                                     <?php if ($sp['can_kiem_ke'] == 1): ?>
                                         <span class="badge badge-success"><i class="fa-solid fa-check"></i> Cần kiểm kê</span>
+                                    <?php elseif ($linkedParent): ?>
+                                        <span class="badge" style="background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe;" title="Món bán trên app - Số bán sẽ tự động cộng dồn vào món gốc trong kho">
+                                            <i class="fa-solid fa-link"></i> Đã gộp kho
+                                        </span>
                                     <?php else: ?>
                                         <span class="badge badge-secondary"><i class="fa-solid fa-xmark"></i> Bỏ qua</span>
                                     <?php endif; ?>

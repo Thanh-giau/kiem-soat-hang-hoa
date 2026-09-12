@@ -14,8 +14,12 @@ function validateAndExtractSalesData($rows, $colMap) {
     $totalRows = count($rows);
     $currentCategory = 'Khác';
 
-    // Các từ khóa nhóm cần kiểm kê (Bánh, Đồ ăn, Nước suối...)
-    $inventoryKeywords = ['BÁNH', 'BANH', 'SNACK', 'ĐỒ ĂN', 'DO AN', 'BỮA TRƯA', 'BUA TRUA', 'FOOD', 'CAKE', 'NƯỚC SUỐI', 'NUOC SUOI', 'ĐÓNG CHAI', 'DONG CHAI'];
+    // Các từ khóa nhóm hoặc tên món cần kiểm kê (Bánh, Đồ ăn, Nước suối...)
+    $inventoryKeywords = [
+        'BÁNH', 'BANH', 'SNACK', 'ĐỒ ĂN', 'DO AN', 'BỮA TRƯA', 'BUA TRUA', 'FOOD', 'CAKE', 
+        'NƯỚC SUỐI', 'NUOC SUOI', 'ĐÓNG CHAI', 'DONG CHAI', 'MOCHI', 'CROISSANT', 'SANDWICH',
+        'PIZZA', 'PASTA', 'PATE', 'CHÀ BÔNG', 'CHA BONG', 'PHÔ MAI', 'PHO MAI', 'SU KEM', 'TIRAMISU'
+    ];
 
     for ($i = $headerIndex + 1; $i < $totalRows; $i++) {
         $row = $rows[$i];
@@ -43,11 +47,12 @@ function validateAndExtractSalesData($rows, $colMap) {
         // Bỏ qua dòng nếu số lượng <= 0
         if ($soLuong <= 0) continue;
 
-        // Xác định nhóm có thuộc diện kiểm kê tự nhiên hay không
+        // Xác định mặt hàng có thuộc diện kiểm kê hay không (kiểm tra cả Tên nhóm và Tên sản phẩm)
         $catUpper = mb_strtoupper($currentCategory, 'UTF-8');
+        $dishUpper = mb_strtoupper($tenSP, 'UTF-8');
         $isInventoryGroup = false;
         foreach ($inventoryKeywords as $kw) {
-            if (mb_strpos($catUpper, $kw, 0, 'UTF-8') !== false) {
+            if (mb_strpos($catUpper, $kw, 0, 'UTF-8') !== false || mb_strpos($dishUpper, $kw, 0, 'UTF-8') !== false) {
                 $isInventoryGroup = true;
                 break;
             }
