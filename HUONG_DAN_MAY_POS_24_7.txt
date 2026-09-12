@@ -1,0 +1,80 @@
+================================================================================
+       HƯỚNG DẪN BIẾN MÁY POS THÀNH MÁY CHỦ 24/24 & TỰ ĐỘNG CẬP NHẬT TỪ XA
+================================================================================
+
+Hệ thống quản lý kho của bạn đã được thiết kế hoàn chỉnh để:
+1. Chạy ngầm 24/24 trên máy POS mà KHÔNG HIỆN BẤT KỲ CỬA SỔ ĐEN (CMD) NÀO.
+2. Thu ngân trên máy POS vẫn bán hàng bình thường 100%, không bị vướng víu.
+3. Tự động khởi động lại mỗi khi máy POS bật nguồn hoặc khởi động lại Windows.
+4. Bạn thoải mái lập trình, thêm chức năng trên máy tính cá nhân hiện tại.
+   Sau đó máy POS sẽ TỰ ĐỘNG CẬP NHẬT TÍNH NĂNG MỚI MÀ DỮ LIỆU KHO KHÔNG BỊ MẤT.
+5. Máy POS KHÔNG CẦN CÀI VS Code hay bất kỳ phần mềm lập trình nào.
+
+================================================================================
+PHẦN 1: CÀI ĐẶT LẦN ĐẦU TIÊN TRÊN MÁY POS (CHỈ CẦN LÀM ĐÚNG 1 LẦN)
+================================================================================
+
+BƯỚC 1: Chuẩn bị trên máy POS
+- Cài đặt phần mềm XAMPP miễn phí (để có PHP và MySQL):
+  Link tải: https://www.apachefriends.org/download.html
+  (Lưu ý: Cài đặt vào thư mục mặc định C:\xampp).
+- Cài đặt Git for Windows (để tự động kéo tính năng mới về):
+  Link tải: https://git-scm.com/download/win (Cứ bấm Next liên tục để cài).
+
+BƯỚC 2: Chuyển mã nguồn sang máy POS
+- Cách 1 (Nhanh nhất): Mở Command Prompt (cmd) trên máy POS gõ lệnh:
+    git clone https://github.com/Thanh-giau/kiem-soat-hang-hoa.git C:\kiem-soat-hang-hoa
+- Cách 2: Copy toàn bộ thư mục [kiem-soat-hang-hoa] qua USB sang ổ C:\ máy POS.
+
+BƯỚC 3: Thiết lập tự động 1-Click
+- Vào thư mục C:\kiem-soat-hang-hoa trên máy POS.
+- Nhấp đúp chuột vào file:
+    👉 CAI_DAT_MAY_POS_24_7.bat
+- File này sẽ TỰ ĐỘNG:
+  + Nạp cơ sở dữ liệu và danh mục bánh, số tồn vào máy POS.
+  + Đăng ký cho máy chủ TỰ ĐỘNG CHẠY NGẦM mỗi khi máy POS bật máy.
+  + Bật máy chủ ngầm ngay lập tức.
+=> XONG! Từ giây phút này, máy POS đã là MÁY CHỦ 24/24!
+
+================================================================================
+PHẦN 2: QUY TRÌNH LÀM VIỆC & CẬP NHẬT TÍNH NĂNG MỚI (HẰNG NGÀY)
+================================================================================
+
+Khi bạn muốn sửa đổi hoặc thêm tính năng mới cho website:
+
+BƯỚC 1: Trên Máy Tính Làm Việc Hiện Tại Của Bạn
+- Bạn viết code, chỉnh sửa giao diện theo ý muốn trên máy tính này.
+- Khi hoàn thành, nhấp đúp vào file:
+    👉 DAY_LEN_GITHUB.bat
+  (Code mới sẽ được đẩy an toàn lên kho lưu trữ GitHub của bạn).
+
+BƯỚC 2: Cập Nhật Sang Máy POS Đang Mở 24/24
+Bạn có 2 cách cực kỳ tiện lợi mà KHÔNG CẦN MỞ VS CODE:
+
+* CÁCH A (TIỆN NHẤT - CẬP NHẬT TỪ XA QUA ĐIỆN THOẠI HOẶC LAPTOP):
+  - Bạn mở web kho trên điện thoại hoặc máy tính cá nhân.
+  - Vào Menu bên trái chọn mục: [Hệ Thống Máy Chủ] -> [Cập Nhật Hệ Thống].
+  - Bấm nút: [🚀 Cập Nhật Phiên Bản Mới Nhất Từ GitHub Ngay].
+  => Máy POS từ xa sẽ tự động kéo toàn bộ tính năng mới về trong 2 giây!
+     Bạn không cần phải đi đến máy POS hay chạm vào máy POS!
+
+* CÁCH B (LÀM TRỰC TIẾP TRÊN MÁY POS):
+  - Trên màn hình máy POS, nhấp đúp vào file:
+    👉 CAP_NHAT_TU_GITHUB.bat
+  => Hệ thống tự động sao lưu dữ liệu cũ và cập nhật tính năng mới ngay lập tức!
+
+================================================================================
+PHẦN 3: DANH SÁCH CÁC FILE TIỆN ÍCH DÀNH CHO MÁY POS
+================================================================================
+
+1. CAI_DAT_MAY_POS_24_7.bat       : Cài đặt trọn gói ban đầu cho máy POS.
+2. CHAY_NGAM_CHO_POS.vbs          : Khởi động máy chủ chạy ngầm (hoàn toàn ẩn, không cửa sổ).
+3. BAT_KHOI_DONG_CUNG_WINDOWS.bat : Bật chế độ tự chạy ngầm khi mở máy POS.
+4. TAT_KHOI_DONG_CUNG_WINDOWS.bat : Tắt chế độ tự chạy ngầm khi mở máy POS.
+5. CAP_NHAT_TU_GITHUB.bat         : Cập nhật tính năng mới từ GitHub về máy POS.
+6. KIEM_TRA_TRANG_THAI.bat        : Kiểm tra xem MySQL, Web và Online có đang chạy tốt không.
+7. DUNG_MAY_CHU.bat               : Tắt hoàn toàn máy chủ khi cần bảo trì.
+8. SAO_LUU_DU_LIEU.bat            : Xuất file sao lưu database an toàn.
+9. KHOI_PHUC_DU_LIEU.bat          : Nạp lại dữ liệu từ bản sao lưu.
+
+================================================================================

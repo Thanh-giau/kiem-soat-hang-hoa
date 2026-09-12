@@ -96,6 +96,16 @@ $currentScript = $_SERVER['SCRIPT_NAME'] ?? '';
                 <span>Lịch Sử File Upload</span>
             </a>
         </li>
+
+        <?php if (function_exists('isAdmin') && isAdmin()): ?>
+        <li class="menu-category">Hệ Thống Máy Chủ</li>
+        <li class="menu-item <?= strpos($currentScript, 'hethong/cap_nhat.php') !== false ? 'active' : '' ?>">
+            <a href="<?= BASE_URL ?>/hethong/cap_nhat.php">
+                <i class="fa-solid fa-cloud-arrow-down" style="color: #6366f1;"></i>
+                <span>Cập Nhật Hệ Thống</span>
+            </a>
+        </li>
+        <?php endif; ?>
     </ul>
 
     <div class="sidebar-footer">
