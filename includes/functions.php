@@ -214,3 +214,23 @@ function renderChenhLechBadge($chenhLech) {
         return '<span class="badge badge-warning"><i class="fa-solid fa-circle-up"></i> Dư (+' . formatNumber($val) . ')</span>';
     }
 }
+
+/**
+ * Chuyển ngày Y-m-d thành Thứ trong tuần tiếng Việt
+ */
+if (!function_exists('getThuTrongTuanVN')) {
+    function getThuTrongTuanVN($dateStr) {
+        $dayOfWeek = date('w', strtotime($dateStr));
+        $days = [
+            0 => 'Chủ Nhật',
+            1 => 'Thứ Hai',
+            2 => 'Thứ Ba',
+            3 => 'Thứ Tư',
+            4 => 'Thứ Năm',
+            5 => 'Thứ Sáu',
+            6 => 'Thứ Bảy'
+        ];
+        return $days[$dayOfWeek] ?? '';
+    }
+}
+

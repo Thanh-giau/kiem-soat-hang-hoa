@@ -57,7 +57,7 @@ CREATE TABLE `dieu_chinh_kho` (
 
 LOCK TABLES `dieu_chinh_kho` WRITE;
 /*!40000 ALTER TABLE `dieu_chinh_kho` DISABLE KEYS */;
-INSERT INTO `dieu_chinh_kho` VALUES (1,6,'2026-09-01','huy',7.00,'','Bánh hết date',1,'2026-09-07 01:42:05',NULL),(2,6,'2026-09-05','huy',2.00,'','Bánh hết date',1,'2026-09-07 01:42:48',NULL),(4,22,'2026-09-06','huy',2.00,'Test Huy Date','Kiem tra dinh ky',1,'2026-09-07 01:56:37',NULL),(5,21,'2026-09-06','huy',3.00,'Test Huy Date','Kiem tra dinh ky',1,'2026-09-07 01:56:37',NULL),(6,6,'2026-09-06','huy',2.00,'','',1,'2026-09-07 02:08:12',NULL);
+INSERT INTO `dieu_chinh_kho` VALUES (1,6,'2026-09-01','huy',7.00,'','Bánh hết date',1,'2026-09-07 01:42:05',NULL),(2,6,'2026-09-05','huy',2.00,'','Bánh hết date',1,'2026-09-07 01:42:48',NULL),(6,6,'2026-09-06','huy',2.00,'','',1,'2026-09-07 02:08:12',NULL);
 /*!40000 ALTER TABLE `dieu_chinh_kho` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -348,4 +348,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-13  3:53:38
+-- Dump completed on 2026-09-13  4:07:42
